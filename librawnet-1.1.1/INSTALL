@@ -1,0 +1,27 @@
+Installation instructions of librawnet library
+
+1. Unpack the source code of the library
+   (If you are reading this probably it is already done)
+
+   tar xvzf librawnet-1.1.1.tar.gz
+
+2. Go to the new directory
+
+   cd librawnet-1.1.1/
+
+3. Compile the source code of the library
+   (Make clean is an optional step, just in case a previous compilation has
+   failed)
+
+   make clean
+   make all
+
+4. Install the library, include files and manual pages.
+   For this step you need superuser rights. Execute it as root or with sudo
+
+   make install
+
+5. Enjoy !!
+
+6. If you want to uninstall the librawnet library, "make uninstall" as root
+   will do the trick.

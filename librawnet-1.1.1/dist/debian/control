@@ -1,0 +1,19 @@
+Source: librawnet-devel
+Section: devel
+Priority: extra
+Maintainer: Carlos J. Bernardos <cjbc@it.uc3m.es>
+Build-Depends: debhelper (>= 7.0.50~)
+Standards-Version: 3.8.4
+Homepage: http://www.it.uc3m.es/muruenya/
+#Vcs-Git: git://git.debian.org/collab-maint/librawnet-devel.git
+#Vcs-Browser: http://git.debian.org/?p=collab-maint/librawnet-devel.git;a=summary
+
+Package: librawnet-devel
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Library to develop "raw" network protocols.
+ This library enables developing network protocols bypassing the Linux kernel
+ stack. It access directly to the host interfaces and allows sending and
+ receiving "raw" packets by means of a Packet socket.
+ .
+ Install librawnet if you would like to develop a network stack from scratch.

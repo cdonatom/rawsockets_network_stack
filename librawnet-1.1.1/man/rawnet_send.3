@@ -1,0 +1,41 @@
+.\" Copyright (C) 2010 Manuel Urueña <muruenya@it.uc3m.es>
+.\" It may be distributed under the GNU Public License, version 3, or
+.\" any higher version. See section COPYING of the GNU Public license
+.\" for conditions under which this file may be redistributed.
+.TH "RAWNET_SEND" "3" "2010-09-01" "Universidad Carlos III de Madrid" "Linux Programmer's Manual"
+.PP
+.SH "NAME"
+rawnet_send() - Function to send "raw" packets.
+.PP
+.SH "SYNOPSIS"
+.nf
+.B #include <rawnet.h>
+.sp
+.BI "int rawnet_send ( rawiface_t * " iface ", unsigned char * " packet ", int " pkt_len " );"
+.fi
+.SH "DESCRIPTION"
+.PP
+This function sends a packet through the specified interface.
+.PP
+.SH "PARAMETERS"
+.PP
+\fIiface\fP is the handler of the interface employed to sent the packet. The
+interface must have been previously initialized with \fBrawiface_open()\fP.
+.PP
+\fIpacket\fP is a pointer to the content of the packet to be sent. It should
+include layer 2 and upper headers.
+.PP
+\fIpkt_len\fP specifies the length in bytes of packet to be sent.
+.PP
+.SH "RETURN VALUE"
+.PP
+The number of bytes being sent.
+.PP
+.SH "ERRORS"
+.PP
+This function returns -1 if some error has occurred. The full error
+description can be obtained by means of the \fBrawnet_strerror()\fP function.
+.PP
+.SH "SEE_ALSO"
+.BR rawnet (3),
+.BR rawnet_strerror (3)

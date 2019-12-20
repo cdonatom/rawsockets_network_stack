@@ -1,0 +1,51 @@
+.\" Copyright (C) 2010 Manuel Urueña <muruenya@it.uc3m.es>
+.\" It may be distributed under the GNU Public License, version 3, or
+.\" any higher version. See section COPYING of the GNU Public license
+.\" for conditions under which this file may be redistributed.
+.TH "RAWNET_POLL" "3" "2010-09-01" "Universidad Carlos III de Madrid" "Linux Programmer's Manual"
+.PP
+.SH "NAME"
+rawnet_poll() - Function to listen multiple "raw" interfaces.
+.PP
+.SH "SYNOPSIS"
+.nf
+.B #include <rawnet.h>
+.sp
+.BI "int rawnet_poll ( rawiface_t " ifaces "[], int " ifnum ", long int " timeout " );"
+.fi
+.SH "DESCRIPTION"
+.PP
+This function listens packets in multiple interfaces simultaneously. When any
+of the of the specified interfaces receives a packet, the function will return
+the first interface that has a packet ready to be received by means of the
+\fBrawnet_recv()\fP function.
+.PP
+This operation is able to listen the interfaces indefinitely or a limited time
+depending on the \fItimeout\fP parameter.
+.PP
+.SH "PARAMETERS"
+.PP
+\fIifaces\fP is an array with the interfaces' handlers to receive from. All
+interfaces must have been previously initialized with \fBrawiface_open()\fP.
+.PP
+\fIifnum\fP specifies the number of interfaces that the \fIifaces\fP array
+contains.
+.PP
+\fItimeout\fP is the time in milliseconds that should be waited for a packet
+to be received before returning. A negative number specifies that the function
+should wait indefinitely. 
+.PP
+.SH "RETURN VALUE"
+.PP
+The index of the first interface [0, ifnum-1] that has a packet ready to be
+received or -2 if the timer has expired.
+.PP
+.SH "ERRORS"
+.PP
+Function returns -1 if some error has occur. The full error description can be
+obtained by means of the \fBrawnet_strerror()\fP function.
+.PP
+.SH "SEE ALSO"
+.BR rawnet (3),
+.BR rawnet_recv (3),
+.BR rawnet_strerror (3)

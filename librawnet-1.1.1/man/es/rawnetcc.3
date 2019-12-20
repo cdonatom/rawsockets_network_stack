@@ -1,0 +1,31 @@
+.\" Copyright (C) 2010 Manuel Urueña <muruenya@it.uc3m.es>
+.\" It may be distributed under the GNU Public License, version 3, or
+.\" any higher version. See section COPYING of the GNU Public license
+.\" for conditions under which this file may be redistributed.
+.TH "RAWNETCC" "3" "2010-09-23" "Universidad Carlos III de Madrid" "Manual del Programador Linux"
+.PP
+.SH "NOMBRE"
+rawnetcc \- Compila un programa "rawnet" con los permisos adecuados.
+.PP
+.SH "SINOPSIS"
+.nf
+rawnetcc <\fIejec\fP> <\fIfich1.c\fP> [ <\fIfich2.c\fP> ...]
+     <\fIejec\fP>: Nombre del ejecutable a crear.
+   <\fIfich.c\fP>: Código fuente del ejecutable.
+.fi
+.PP
+.SH "DESCRIPCIÓN"
+.PP
+Compila todos los ficheros con el código fuente (\fIfile1.c\fP,
+\fIfile2.c\fP...) para generar el fichero ejecutable \fIejec\fP objetivo.
+.PP
+Realmente \fBrawnetcc\fP llama simplemente al compilador \fBgcc\fP con la
+opción "-lrawnet", y luego trata de proporcionar al ejecutable creado los
+permisos adecuados para manejar interfaces "crudas". Primero intenta
+otorgar las capacidades CAP_NET_RAW y CAP_NET_ADMIN al ejecutable y, si eso
+falla, establece el bit SUID al ejecutable para darle permisos de
+superusuario.
+.PP
+.SH "VÉASE TAMBIÉN"
+.BR rawnet (3),
+.BR setcap (8)

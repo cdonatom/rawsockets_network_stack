@@ -1,0 +1,21 @@
+2010-10-13: Manuel Urueña <muruenya@it.uc3m.es> 
+    * Version 1.1.1 released
+    * Solved non-infinite timeout bug in timerms.h
+
+2010-10-12: Carlos Jesús Bernardos <cjbc@it.uc3m.es>
+    * Version 1.1.0 released
+    * Solves a nasty bug in the "timerms" library for i386 machines
+
+2010-10-04: Manuel Urueña <muruenya@it.uc3m.es> 
+    * Version 1.0.2 released
+    * Create install directories before copying files
+
+2010-09-24: Carlos Jesús Bernardos <cjbc@it.uc3m.es>
+    * Version 1.0.1 released
+    * Added support for .deb Linux distributions
+    * rawnetcc modified for different setcap paths
+    * Manual pages of rawnetcc added
+
+2010-09-01: Manuel Urueña <muruenya@it.uc3m.es>
+	* Version 1.0 released
+	* First release

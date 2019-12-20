@@ -1,0 +1,106 @@
+.\" Copyright (C) 2010 Manuel Urueña <muruenya@it.uc3m.es>
+.\" It may be distributed under the GNU Public License, version 3, or
+.\" any higher version. See section COPYING of the GNU Public license
+.\" for conditions under which this file may be redistributed.
+.TH "TIMERMS" "3" "2010-09-01" "Universidad Carlos III de Madrid" "Linux Programmer's Manual"
+.PP
+.SH "NAME"
+timerms \- Timer with millisecond accuracy.
+.PP
+.SH "SYNOPSIS"
+.nf
+.B #include <timerms.h>
+.sp
+.BI "long long int timerms_reset ( timerms_t * " timer ", long int " timeout " );"
+.sp
+.BI "long int timerms_elapsed ( timerms_t * " timer " );"
+.sp
+.BI "long int timerms_left ( timerms_t * " timer " );"
+.sp
+.BI "long long int timerms_time();"
+.fi
+.SH "DESCRIPTION"
+.PP
+This library provides timers with an accuracy of milliseconds. For that
+purpose it is only necessary to initialize the timer with the
+\fBtimerms_reset()\fP function, specifying its timeout in milliseconds.
+.PP
+Once initialized, the elapsed time can be obtained with
+\fBtimerms_elapsed()\fP and the remaining time until expiration with
+\fBtimerms_left()\fP. Once the timer has expired, the \fBtimerms_left()\fP
+function will always return a 0 value.
+.PP
+It is also possible to set an "infinite" timer, which never timeouts. For that
+purpose it is enough to reset it with a negative \fItimeout\fP. In this case,
+\fBtimerms_left()\fP will return a negative time (lower than -1).
+.PP
+The \fBtimerms_time()\fP function returns the current time, specified as the
+number of milliseconds that have elapsed since the beginning of the "Epoch":
+January 1st 1970, at 00:00:00.
+.PP
+.SH "PARAMETERS"
+.PP
+\fBtimerms_t\fP is an opaque structure that stores the timer state. It must be
+initialized with \fBtimerms_reset()\fP before being queried with
+\fBtimerms_elapsed()\fP and \fBtimerms_left()\fP. 
+.PP
+When initializing the timer with \fBtimersms_reset()\fP, the \fItimeout\fP
+parameter specifies the number of milliseconds until the timer expires. Any
+negative \fItimeout\fP value creates an "infinite" timer, which never
+expires.
+.PP
+.SH "RETURN VALUE"
+.PP
+\fBtimerms_time()\fP and \fBtimerms_reset()\fP return the current time in
+milliseconds.
+.PP
+\fBtimerms_elapsed()\fP returns the number of milliseconds since the timer was
+initialized.
+.PP
+\fBtimerms_left()\fP returns the number of milliseconds left until the timer
+expires, 0 if it has already timeout, or a negative value other than -1 if it
+is an "infinite" timer that never expires.
+.PP
+.SH "ERRORS"
+.PP
+\fBtimerms_elapsed()\fP and \fBtimerms_left()\fP functions return -1 if
+\fItimer\fP has not been reset correctly or it is NULL. 
+.PP
+\fBtimerms_reset()\fP and \fBtimerms_time()\fP functions can return -1 int he
+case some error occurs when accessing the system's time.
+.PP
+.SH "EXAMPLES"
+.PP
+To create a timer that expires in 500 ms:
+.nf
+
+    timerms_t timer;
+    long int timeout = 500;
+    long long int now = timerms_reset(&timer, timeout);
+    long int elapsed_time = timerms_elapsed(&timer); /* elapsed_time = 0 */
+    long int time_left = timerms_left(&timer);       /* time_left = 500 */
+    ...
+    elapsed_time = timerms_elapsed(&timer);          /* elapsed_time = 100 */
+    time_left = timerms_left(&timer);                /* time_left = 400 */
+    ...
+    elapsed_time = timerms_elapsed(&timer);          /* elapsed_time = 500 */
+    time_left = timerms_left(&timer);                /* time_left = 0 */
+    ...
+    elapsed_time = timerms_elapsed(&timer);          /* elapsed_time = 1000 */
+    time_left = timerms_left(&timer);                /* time_left = 0 */
+
+.fi
+To create an "infinite" timer:
+.nf
+
+    timerms_t timer;
+    long int timeout = -1;
+    long long int now = timerms_reset(&timer, timeout);
+    long int elapsed_time = timerms_elapsed(&timer); /* elapsed_time = 0 */
+    long int time_left = timerms_left(&timer);       /* time_left < -1 */
+    ...
+    elapsed_time = timerms_elapsed(&timer);          /* elapsed_time = 1000 */
+    time_left = timerms_left(&timer);                /* time_left < -1 */
+
+.fi
+.PP

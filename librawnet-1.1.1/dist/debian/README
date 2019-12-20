@@ -1,0 +1,8 @@
+The Debian Package librawnet-devel
+----------------------------
+
+Librawnet enables developing network protocols bypassing the Linux kernel 
+stack. It access directly to the host interfaces and allows sending and
+receiving "raw" packets by means of a Packet Socket.
+
+ -- Carlos J. Bernardos <cjbc@it.uc3m.es>  Sat, 18 Sep 2010 19:26:10 +0200

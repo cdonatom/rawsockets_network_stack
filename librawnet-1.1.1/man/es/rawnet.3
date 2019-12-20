@@ -1,0 +1,46 @@
+.\" Copyright (C) 2010 Manuel Urueña <muruenya@it.uc3m.es>
+.\" It may be distributed under the GNU Public License, version 3, or
+.\" any higher version. See section COPYING of the GNU Public license
+.\" for conditions under which this file may be redistributed.
+.TH "RAWNET" "3" "2010-09-01" "Universidad Carlos III de Madrid" "Manual del Programador de Linux"
+.PP
+.SH "NOMBRE"
+rawnet \- Libreria para la programación de protocolos de red "en crudo".
+.PP
+.SH "SINOPSIS"
+.nf
+.B #include <rawnet.h>
+.sp
+.BI "rawiface_t * rawiface_open ( char* " ifname " );"
+.sp
+.BI "char* rawiface_getname ( rawiface_t * " iface " );"
+.sp
+.BI "int rawiface_getaddr ( rawiface_t * " iface ", unsigned char " addr "[] );"
+.sp
+.BI "int rawiface_getmtu ( rawiface_t * " iface " );"
+.sp
+.BI "int rawiface_close ( rawiface_t * " iface " );"
+.sp
+.BI "int rawnet_send ( rawiface_t * " iface ", unsigned char * " packet ", int " pkt_len " );"
+.sp
+.BI "int rawnet_recv ( rawiface_t * " iface ", unsigned char " buffer "[], int " buf_len ", long int " timeout " );"
+.sp
+.BI "int rawnet_poll ( rawiface_t * " ifaces "[], int " ifnum ", long int " timeout " );"
+.sp
+.BI "char* rawnet_strerror();"
+.fi
+.SH "DESCRIPCIÓN"
+.PP
+Es librería permite acceder directamente a los interfaces de red del equipo,
+así como enviar y recibir paquetes "crudos", esto es, paquetes que no han sido
+procesados por la pila de protocolos del equipo.
+.PP
+De esta forma es posible escribir torres de protocolos de red desde zero, que
+pueden generar y procesar todas las cabeceras de los paquetes.
+.PP
+.SH "VÉASE TAMBIÉN"
+.BR rawiface (3), 
+.BR rawnet_send (3),
+.BR rawnet_recv (3),
+.BR rawnet_poll (3),
+.BR rawnet_strerror (3)

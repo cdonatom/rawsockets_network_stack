@@ -1,0 +1,62 @@
+.\" Copyright (C) 2010 Manuel Urueña <muruenya@it.uc3m.es>
+.\" It may be distributed under the GNU Public License, version 3, or
+.\" any higher version. See section COPYING of the GNU Public license
+.\" for conditions under which this file may be redistributed.
+.TH "RAWNET_RECV" "3" "2010-09-01" "Universidad Carlos III de Madrid" "Manual del Programador de Linux"
+.PP
+.SH "NOMBRE"
+rawnet_recv() - Función para recibir paquetes "en crudo".
+.PP
+.SH "SINOPSIS"
+.nf
+.B #include <rawnet.h>
+.sp
+.BI "int rawnet_recv ( rawiface_t * " iface ", unsigned char " buffer "[], int " buf_len ", long int " timeout " );"
+.fi
+.SH "DESCRIPCIÓN"
+.PP
+Esta función permite obtener el siguiente paquete recibido por la interfaz
+indicada. La operación puede esperar indefinidamente o un tiempo limitando
+dependiendo del parámetro \fItimeout\fP.
+.PP
+Esta función sólo permite recibir paquetes de una única interfaz. Si desea
+escuchar varias interfaces simultáneamente, utilice la
+función \fBrawnet_poll()\fP.
+.PP
+.SH "PARÁMETROS"
+.PP
+\fIiface\fP es el manejador de la interfaz por la que se desea recibir un
+paquete. La interfaz debe haber sido inicializada con \fBrawiface_open()\fP
+previamente.
+.PP
+\fIbuffer\fP especifica el array donde se almacenará el contenido del
+paquete recibido, incluyendo las cabeceras de nivel 2 y superiores.
+.PP
+\fIbuf_len\fP es el tamaño máximo del buffer en bytes. Si el tamaño del
+buffer es inferior al del paquete recibido, sólo se copiarán \fIbuf_len\fP
+bytes en el \fIbuffer\fP aunque la función  devolverá la longitud completa del
+paquete recibido.
+.PP
+\fItimeout\fP indica el tiempo en milisegundos que debe esperarse a recibir un
+paquete antes de retornar. Un número negativo indicará que debe esperarse
+indefinidamente, mientras que con un 0 la función retornará inmediatamente,
+se haya recibido o no un paquete.
+.PP
+.SH "VALOR DEVUELTO"
+.PP
+La longitud en bytes del paquete recibido, o 0 si no se ha recibido ningún
+paquete porque ha expirado el temporizador.
+.PP
+Tenga en cuenta que la longitud devuelta puede ser superior al máximo número
+de bytes (\fIbuf_len\fP) copiados en el \fIbuffer\fP. 
+.PP
+.SH "ERRORES"
+.PP
+La función devuelve -1 si se ha producido algún error. La descripción
+completa del error puede obtenerse a través de la función
+\fBrawnet_strerror()\fP.
+.PP
+.SH "VÉASE TAMBIÉN"
+.BR rawnet (3),
+.BR rawnet_poll (3),
+.BR rawnet_strerror (3)

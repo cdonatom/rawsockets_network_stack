@@ -1,0 +1,46 @@
+.\" Copyright (C) 2010 Manuel Urueña <muruenya@it.uc3m.es>
+.\" It may be distributed under the GNU Public License, version 3, or
+.\" any higher version. See section COPYING of the GNU Public license
+.\" for conditions under which this file may be redistributed.
+.TH "RAWNET" "3" "2010-09-01" "Universidad Carlos III de Madrid" "Linux Programmer's Manual"
+.PP
+.SH "NAME"
+rawnet \- Library for "raw" network protocol development.
+.PP
+.SH "SYNOPSIS"
+.nf
+.B #include <rawnet.h>
+.sp
+.BI "rawiface_t * rawiface_open ( char* " ifname " );"
+.sp
+.BI "char* rawiface_getname ( rawiface_t * " iface " );"
+.sp
+.BI "int rawiface_getaddr ( rawiface_t * " iface ", unsigned char " addr "[] );"
+.sp
+.BI "int rawiface_getmtu ( rawiface_t * " iface " );"
+.sp
+.BI "int rawiface_close ( rawiface_t * " iface " );"
+.sp
+.BI "int rawnet_send ( rawiface_t * " iface ", unsigned char * " packet ", int " pkt_len " );"
+.sp
+.BI "int rawnet_recv ( rawiface_t * " iface ", unsigned char " buffer "[], int " buf_len ", long int " timeout " );"
+.sp
+.BI "int rawnet_poll ( rawiface_t * " ifaces "[], int " ifnum ", long int " timeout " );"
+.sp
+.BI "char* rawnet_strerror();"
+.fi
+.SH "DESCRIPTION"
+.PP
+This library allows accessing directly to the host network interfaces, as well
+as sending and receiving "raw " packets, that is, packets that have not been
+processed by the network stack of the host.
+.PP
+This way it is possible to develop a network protocol stack from scratch, that
+are able to generate and process all headers of packets.
+.PP
+.SH "SEE ALSO"
+.BR rawiface (3), 
+.BR rawnet_send (3),
+.BR rawnet_recv (3),
+.BR rawnet_poll (3),
+.BR rawnet_strerror (3)

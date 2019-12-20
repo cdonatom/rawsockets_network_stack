@@ -1,0 +1,38 @@
+.\" Copyright (C) 2010 Manuel Urueña <muruenya@it.uc3m.es>
+.\" It may be distributed under the GNU Public License, version 3, or
+.\" any higher version. See section COPYING of the GNU Public license
+.\" for conditions under which this file may be redistributed.
+.TH "RAWNET_STRERROR" "3" "2010-09-01" "Universidad Carlos III de Madrid" "Manual del Programador de Linux"
+.PP
+.SH "NOMBRE"
+rawnet_strerror() - Función para obtener el último error producido en la
+librería librawnet.
+.PP
+.SH "SINOPSIS"
+.nf
+.B #include <rawnet.h>
+.sp
+.BI "char* rawnet_strerror();"
+.fi
+.SH "DESCRIPCIÓN"
+.PP
+Esta función devuelve el último mensaje de error generado por alguna función
+de la librería librawnet. 
+.PP
+Hay funciones que no actualizan este mensaje de error, consulte la definición
+de la función.
+.PP 
+.SH "VALOR DEVUELTO"
+.PP
+Cadena de texto con los detalles del último error producido por la librería
+librawnet.
+.PP
+.SH "VÉASE TAMBIÉN"
+.BR rawnet (3),
+.BR rawiface_open (3),
+.BR rawiface_getaddr (3),
+.BR rawiface_getmtu (3),
+.BR rawiface_close (3),
+.BR rawnet_send (3),
+.BR rawnet_recv (3),
+.BR rawnet_poll (3)

@@ -1,0 +1,107 @@
+.\" Copyright (C) 2010 Manuel Urueña <muruenya@it.uc3m.es>
+.\" It may be distributed under the GNU Public License, version 3, or
+.\" any higher version. See section COPYING of the GNU Public license
+.\" for conditions under which this file may be redistributed.
+.TH "TIMERMS" "3" "2010-09-01" "Universidad Carlos III de Madrid" "Manual del Programador de Linux"
+.PP
+.SH "NOMBRE"
+timerms \- Temporizador con precisión de milisegundos.
+.PP
+.SH "SINOPSIS"
+.nf
+.B #include <timerms.h>
+.sp
+.BI "long long int timerms_reset ( timerms_t * " timer ", long int " timeout " );"
+.sp
+.BI "long int timerms_elapsed ( timerms_t * " timer " );"
+.sp
+.BI "long int timerms_left ( timerms_t * " timer " );"
+.sp
+.BI "long long int timerms_time();"
+.fi
+.SH "DESCRIPCIÓN"
+.PP
+Esta librería ofrece temporizadores con precisión de milisegundos. Para ello
+basta con inicializar el temporizador con la función \fBtimerms_reset()\fP
+indicando su tiempo de expiración en milisegundos.
+.PP
+Una vez inicializado se puede consultar el tiempo que ha pasado con
+\fBtimerms_elapsed()\fP y el tiempo que queda hasta que expira con
+\fBtimerms_left()\fP. Una vez que el temporizador ha expirado, la función
+\fBtimerms_left()\fP siempre devolverá el valor 0.
+.PP
+También es posible establecer un temporizador "infinito", que no expira
+nunca. Para ello basta inicializarlo con un \fItimeout\fP negativo. En ese
+caso \fBtimerms_left()\fP devolverá un tiempo negativo (inferior a -1).
+.PP
+La función \fBtimerms_time()\fP devuelve el tiempo actual, especificado como el
+número de milisegundos que han pasado desde el inicio de la "Época": el 1 de
+enero de 1970 a las 00:00:00.
+.PP
+.SH "PARÁMETROS"
+.PP
+\fBtimerms_t\fP es una estructura opaca que almacena el estado del
+temporizador. Debe inicializarse con \fBtimerms_reset()\fP antes de poder ser
+consultada con \fBtimerms_elapsed()\fP y \fBtimerms_left()\fP.
+.PP
+Al inicializar el temporizador con \fBtimersms_reset()\fP, el parámetro
+\fItimeout\fP especifica el número de milisegundos hasta que expira el
+temporizador. Cualquier valor de \fItimeout\fP negativo generará un
+temporizador "infinito", que no expira nunca.
+.PP
+.SH "VALOR DEVUELTO"
+.PP
+\fBtimerms_time()\fP y \fBtimerms_reset()\fP devuelven el tiempo actual en
+milisegundos.
+.PP
+\fBtimerms_elapsed()\fP devuelve el número de milisegundos que han pasado
+desde que el temporizador fue inicializado.
+.PP
+\fBtimerms_left()\fP devuelve el tiempo en milisegundos que falta hasta que
+expire el temporizador, 0 si ya ha expirado, o un valor negativo inferior a
+-1, si el temporizador es "infinito" y no expira nunca.
+.PP
+.SH "ERRORES"
+.PP
+Las funciones \fBtimerms_elapsed()\fP y \fBtimerms_left()\fP devuelven -1
+si el temporizador \fItimer\fP no ha sido inicializado correctamente o es
+NULL.
+.PP
+Las funciones \fBtimerms_reset()\fP y \fBtimerms_time()\fP pueden devolver
+-1 en el caso de que se produzca un error al acceder a la hora del sistema.
+.PP
+.SH "EJEMPLOS"
+.PP
+Crear un temporizador que expira a los 500 ms:
+.nf
+
+    timerms_t timer;
+    long int timeout = 500;
+    long long int now = timerms_reset(&timer, timeout);
+    long int elapsed_time = timerms_elapsed(&timer); /* elapsed_time = 0 */
+    long int time_left = timerms_left(&timer);       /* time_left = 500 */
+    ...
+    elapsed_time = timerms_elapsed(&timer);          /* elapsed_time = 100 */
+    time_left = timerms_left(&timer);                /* time_left = 400 */
+    ...
+    elapsed_time = timerms_elapsed(&timer);          /* elapsed_time = 500 */
+    time_left = timerms_left(&timer);                /* time_left = 0 */
+    ...
+    elapsed_time = timerms_elapsed(&timer);          /* elapsed_time = 1000 */
+    time_left = timerms_left(&timer);                /* time_left = 0 */
+
+.fi
+Crear un temporizador "infinito":
+.nf
+
+    timerms_t timer;
+    long int timeout = -1;
+    long long int now = timerms_reset(&timer, timeout);
+    long int elapsed_time = timerms_elapsed(&timer); /* elapsed_time = 0 */
+    long int time_left = timerms_left(&timer);       /* time_left < -1 */
+    ...
+    elapsed_time = timerms_elapsed(&timer);          /* elapsed_time = 1000 */
+    time_left = timerms_left(&timer);                /* time_left < -1 */
+
+.fi
+.PP

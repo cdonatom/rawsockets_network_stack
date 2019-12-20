@@ -1,0 +1,92 @@
+.\" Copyright (C) 2010 Manuel Urueña <muruenya@it.uc3m.es>
+.\" It may be distributed under the GNU Public License, version 3, or
+.\" any higher version. See section COPYING of the GNU Public license
+.\" for conditions under which this file may be redistributed.
+.TH "RAWIFACE" "3" "2010-09-01" "Universidad Carlos III de Madrid" "Linux Programmer's Manual"
+.PP
+.SH "NAME"
+rawiface_open(), rawiface_getname(), rawiface_getaddr(),
+rawiface_getmtu(), rawiface_close() - 
+Functions to handle host's network interfaces.
+.PP
+.SH "SYNOPSIS"
+.nf
+.B #include <rawnet.h>
+.sp
+.BI "rawiface_t * rawiface_open ( char* " ifname " );"
+.sp
+.BI "char* rawiface_getname ( rawiface_t * " iface " );"
+.sp
+.BI "int rawiface_getaddr ( rawiface_t * " iface ", unsigned char " addr "[] );"
+.sp
+.BI "int rawiface_getmtu ( rawiface_t * " iface " );"
+.sp
+.BI "int rawiface_close ( rawiface_t * " iface " );"
+.fi
+.SH "DESCRIPTION"
+.PP
+\fBrawiface_open()\fP initializes the network interface named \fIifname\fP in
+"raw" mode. Once the interface has been opened, it is possible to employ the
+remaining functions to obtain information about it. It is also possible to
+send and receive "raw" packets using \fBrawnet_recv()\fP and
+\fBrawnet_send()\fP.
+.PP
+\fBrawiface_getname()\fP, \fBrawiface_getaddr()\fP, \fBrawiface_getmtu()\fP
+functions allow to obtain, respectively, the name, the hardware address, and
+the Maximum Transmission Unit (MTU) of the specified interface.
+.PP
+\fBrawiface_close()\fP is the reverse operation to \fBrawiface_open()\fP
+because it closes the interface and frees the resources employed by its
+handler.
+.PP
+.SH "PARAMETERS"
+.PP
+The \fIifname\fP parameter of the \fBrawiface_open()\fP function is a text
+string that contains the name of the interface to be opened.
+.PP
+The \fIiface\fP parameters are pointers to the interface handlers, which must
+have been previously created with the \fBrawiface_open()\fP function. The
+memory of such handler should be freed with \fBrawiface_close()\fP when it is
+no longer necessary.
+.PP
+The \fIaddr\fP of the \fBrawiface_getaddr()\fP function is a output parameter
+where the hardware address of the specified network interface will be
+copied. Such variable must have a size of \fBHW_ADDR_MAX_SIZE\fP bytes at
+least, and its memory must have been reserved previously. 
+\fBrawiface_getaddr()\fP return the real length of that address.
+.PP
+.SH "RETURN VALUE"
+.PP
+\fBrawiface_open()\fP returns a pointer to the handler of the opened
+interface.
+.PP
+\fBrawiface_getname()\fP returns a pointer to the text string with the name of
+the opened interface.
+.PP
+\fBrawiface_getaddr()\fP returns the real length of the interface's hardware
+address. The address itself is copied in the \fIaddr\fP output parameter.
+.PP
+\fBrawiface_getmtu()\fP returns the Maximum Transmission Unit (MTU) in bytes
+of the interface. That is, the maximum length of the packets that can be sent
+through it.
+.PP
+\fBrawiface_close()\fP returns 0 if the interface has been correctly closed.
+.PP
+.SH "ERRORS"
+.PP
+The \fBrawiface_getaddr()\fP, \fBrawiface_getmtu()\fP and
+\fBrawiface_close()\fP functions return -1 if the interface handler is NULL or
+it has not been correctly initialized, or there has been some internal error. 
+.PP
+The \fBrawiface_open()\fP and \fBrawiface_getaddr()\fP functions return NULL
+in case of error.
+.PP
+You can employ the \fBrawnet_strerror()\fP function to obtain a detailed
+description of the last error.
+.PP
+.SH "SEE ALSO"
+.BR rawnet (3),
+.BR rawnet_send (3),
+.BR rawnet_recv (3),
+.BR rawnet_poll (3),
+.BR rawnet_strerror (3)

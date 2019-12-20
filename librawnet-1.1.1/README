@@ -1,0 +1,4 @@
+Librawnet enables developing network protocols bypassing the Linux kernel 
+stack. It access directly to the host interfaces and allows sending and
+receiving "raw" packets by means of a Packet Socket.
+
